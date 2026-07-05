@@ -203,7 +203,7 @@ NODE_ENV=production
 PORT=5000
 MONGODB_URI=mongodb+srv://...
 JWT_SECRET=<strong-random-64-char>
-CLIENT_URL=https://your-domain.com
+CLIENT_URL=https://mediqclient.onrender.com
 OPENROUTER_API_KEY=your_openrouter_key_here
 ```
 

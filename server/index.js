@@ -10,10 +10,25 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const server = http.createServer(app);
 
-const defaultClientOrigin = process.env.NODE_ENV === 'production' ? true : 'http://localhost:3000';
-const clientOrigin = process.env.CLIENT_URL || defaultClientOrigin;
+const clientOrigins = new Set([
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URLS,
+  'http://localhost:3000',
+  'https://mediqclient.onrender.com',
+]);
+
+const normalizedClientOrigins = Array.from(clientOrigins)
+  .filter(Boolean)
+  .flatMap((value) => String(value).split(','))
+  .map((value) => value.trim())
+  .filter(Boolean);
+
 const corsOptions = {
-  origin: clientOrigin,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (normalizedClientOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked for origin: ${origin}`), false);
+  },
   methods: ['GET', 'POST'],
   credentials: true,
 };
