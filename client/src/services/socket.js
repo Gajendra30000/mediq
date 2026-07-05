@@ -4,7 +4,7 @@ let socket = null;
 
 export const initSocket = () => {
   if (!socket) {
-    socket = io(process.env.REACT_APP_SERVER_URL || 'http://localhost:5000', {
+    socket = io(process.env.REACT_APP_SERVER_URL || 'https://mediqserver.onrender.com', {
       autoConnect: false,
     });
   }

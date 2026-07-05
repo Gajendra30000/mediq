@@ -10,18 +10,23 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const server = http.createServer(app);
 
+const defaultClientOrigin = process.env.NODE_ENV === 'production' ? true : 'http://localhost:3000';
+const clientOrigin = process.env.CLIENT_URL || defaultClientOrigin;
+const corsOptions = {
+  origin: clientOrigin,
+  methods: ['GET', 'POST'],
+  credentials: true,
+};
+
 const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    methods: ['GET', 'POST'],
-  },
+  cors: corsOptions,
 });
 
 // Attach io to app so controllers can emit
 app.set('io', io);
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000' }));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 

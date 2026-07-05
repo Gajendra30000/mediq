@@ -7,9 +7,10 @@ export default function DisplayBoard() {
   const [time, setTime] = useState(new Date());
   const [blink, setBlink] = useState(false);
   const prevToken = useRef(null);
+  const apiBaseUrl = (process.env.REACT_APP_API_URL || 'https://mediqserver.onrender.com/api').replace(/\/$/, '');
 
   useEffect(() => {
-    const es = new EventSource(`/api/display/sse/${doctorId}`);
+    const es = new EventSource(`${apiBaseUrl}/display/sse/${doctorId}`);
     es.onmessage = (e) => {
       const d = JSON.parse(e.data);
       if (!d.error) {
@@ -22,7 +23,7 @@ export default function DisplayBoard() {
       }
     };
     return () => es.close();
-  }, [doctorId]);
+  }, [doctorId, apiBaseUrl]);
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);

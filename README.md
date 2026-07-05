@@ -52,7 +52,27 @@ PORT=5000
 MONGODB_URI=mongodb://localhost:27017/mediqueue
 JWT_SECRET=your_strong_secret_here
 CLIENT_URL=http://localhost:3000
-ANTHROPIC_API_KEY=sk-ant-...
+OPENROUTER_API_KEY=your_openrouter_key_here
+JWT_EXPIRES=7d
+NODE_ENV=development
+```
+
+For Render production:
+
+```env
+MONGODB_URI=your_mongodb_atlas_uri
+JWT_SECRET=your_strong_production_secret
+JWT_EXPIRES=7d
+CLIENT_URL=https://your-frontend.onrender.com
+OPENROUTER_API_KEY=your_openrouter_key_here
+NODE_ENV=production
+```
+
+For the client on Render, set these in the Static Site environment variables:
+
+```env
+REACT_APP_API_URL=https://mediqserver.onrender.com/api
+REACT_APP_SERVER_URL=https://mediqserver.onrender.com
 ```
 
 ### 3. Seed demo data
@@ -184,7 +204,7 @@ PORT=5000
 MONGODB_URI=mongodb+srv://...
 JWT_SECRET=<strong-random-64-char>
 CLIENT_URL=https://your-domain.com
-ANTHROPIC_API_KEY=sk-ant-...
+OPENROUTER_API_KEY=your_openrouter_key_here
 ```
 
 ```bash

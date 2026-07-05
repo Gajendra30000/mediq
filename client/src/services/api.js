@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+const apiBaseUrl = process.env.REACT_APP_API_URL || 'https://mediqserver.onrender.com/api';
+const api = axios.create({ baseURL: apiBaseUrl });
 
 // Attach JWT from localStorage
 api.interceptors.request.use((config) => {

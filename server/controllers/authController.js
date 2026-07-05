@@ -6,12 +6,15 @@ const Doctor = require('../models/Doctor');
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES || '7d' });
 
+const normalizeEmail = (value) => (value || '').trim().toLowerCase();
+
 exports.register = async (req, res) => {
   try {
-    const { name, email, phone, password, role, doctorData, patientData } = req.body;
+    const { name, phone, password, role, doctorData, patientData } = req.body;
+    const email = normalizeEmail(req.body.email);
 
     // Validate Gmail format
-    if (!email || !email.toLowerCase().endsWith('@gmail.com')) {
+    if (!email || !email.endsWith('@gmail.com')) {
       return res.status(400).json({ message: 'Email must be in format name@gmail.com' });
     }
 
@@ -37,6 +40,9 @@ exports.register = async (req, res) => {
     const token = signToken(user._id);
     res.status(201).json({ token, user: user.toPublic() });
   } catch (err) {
+    if (err?.code === 11000 && err?.keyPattern?.email) {
+      return res.status(409).json({ message: 'Email already registered' });
+    }
     res.status(400).json({ message: err.message });
   }
 };
@@ -47,7 +53,8 @@ exports.login = async (req, res) => {
     if (!email || !password)
       return res.status(400).json({ message: 'Email and password required' });
 
-    const user = await User.findOne({ email });
+    const normalizedEmail = normalizeEmail(email);
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
