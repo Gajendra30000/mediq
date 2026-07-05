@@ -26,7 +26,7 @@ export default function LoginPage() {
       const dest = { patient: '/home', doctor: '/doctor', admin: '/hospital', reception: '/reception' };
       navigate(dest[user.role] || '/home');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
+      toast.error(err.response?.data?.message || err.message || 'Login failed');
     } finally {
       setLoading(false);
     }

@@ -48,14 +48,14 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await authAPI.register({
-        name: form.name, email: form.email, phone: form.phone, password: form.password,
+        name: form.name, email: form.email.trim().toLowerCase(), phone: form.phone, password: form.password,
         role: 'patient',
         patientData: { dob: form.dob, gender: form.gender, bloodGroup: form.bloodGroup },
       });
       toast.success('Account created! Please sign in.');
       navigate('/login');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      toast.error(err.response?.data?.message || err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }

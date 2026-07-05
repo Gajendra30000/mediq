@@ -33,7 +33,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => { loadUser(); }, [loadUser]);
 
   const login = async (email, password) => {
-    const { data } = await authAPI.login({ email, password });
+    const normalizedEmail = (email || '').trim().toLowerCase();
+    const { data } = await authAPI.login({ email: normalizedEmail, password });
     localStorage.setItem('mq_token', data.token);
     setUser(data.user);
     if (data.user.role === 'doctor') {
