@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production builds
+/build
+/dist
+client/build/
+*.min.js
+*.min.css
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+.project
+.classpath
+.settings/
+
+# OS files
+Thumbs.db
+.AppleDouble
+.LSOverride
+._*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+.eslintcache
+.node_repl_history
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache
